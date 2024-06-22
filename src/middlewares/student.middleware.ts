@@ -47,7 +47,7 @@ export const checkStudentByDPI = async (req: Request, res: Response, next: NextF
     const { dpi } = req.body;
     const user = await Student.findOne({ where: { dpi: dpi } });
     if (user) {
-        return res.status(400).json({ message: 'There is already a registered user with that dpi' });
+        return res.status(400).json({ message: 'There is already a registered student with that dpi' });
     }
     next();
 };

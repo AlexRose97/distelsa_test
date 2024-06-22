@@ -15,7 +15,7 @@ const router: Router = Router();
  *         - email
  *         - dpi
  *       properties:
- *         id:
+ *         id_student:
  *           type: number
  *           description: The auto-generated id of the student
  *         name:
@@ -31,7 +31,7 @@ const router: Router = Router();
  *           type: string
  *           description: The DPI of the student
  *       example:
- *         id: 1
+ *         id_student: 1
  *         name: test
  *         last_name: test
  *         email: test@email.com

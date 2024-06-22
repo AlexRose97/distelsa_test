@@ -1,6 +1,5 @@
-// En student.model.ts
 import { Model, DataTypes } from 'sequelize';
-import OracleConnection from '../db/oracle'; // Ajusta la ruta según sea necesario
+import OracleConnection from '../db/oracle';
 
 const sequelize = OracleConnection.getInstance();
 
