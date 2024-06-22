@@ -3,41 +3,6 @@ import Student from '../models/student.model';
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Student:
- *       type: object
- *       required:
- *         - name
- *         - last_name
- *         - email
- *         - dpi
- *       properties:
- *         id:
- *           type: string
- *           description: The auto-generated id of the student
- *         name:
- *           type: string
- *           description: The name of the student
- *         last_name:
- *           type: string
- *           description: The last name of the student
- *         email:
- *           type: string
- *           description: The email of the student
- *         dpi:
- *           type: string
- *           description: The DPI of the student
- *       example:
- *         id: d5fE_asz
- *         name: John
- *         last_name: Doe
- *         email: john.doe@example.com
- *         dpi: 1234567891234
- */
-
-/**
- * @swagger
  * /students:
  *   post:
  *     summary: Create a new student
