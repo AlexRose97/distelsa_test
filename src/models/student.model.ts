@@ -7,6 +7,7 @@ const sequelize = OracleConnection.getInstance();
 class Student extends Model {
   public id_student!: number;
   public name!: string;
+  public dpi!: string;
   public last_name!: string;
   public email!: string;
 }
@@ -17,29 +18,34 @@ Student.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      field: 'ID_STUDENT', // Nombre del campo en la base de datos
+      field: 'ID_STUDENT',//Column DB
+    },
+    dpi: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'DPI',//Column DB
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: 'NAME', // Nombre del campo en la base de datos
+      field: 'NAME',//Column DB
     },
     last_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: 'LAST_NAME', // Nombre del campo en la base de datos
+      field: 'LAST_NAME',//Column DB
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: 'EMAIL', // Nombre del campo en la base de datos
+      field: 'EMAIL',//Column DB
     },
   },
   {
     sequelize,
     modelName: 'Student',
-    tableName: 'STUDENTS', // Nombre de la tabla en la base de datos
-    timestamps: false, // Si no tienes campos de timestamps en la tabla
+    tableName: 'STUDENTS', //Table DB
+    timestamps: false,
   }
 );
 

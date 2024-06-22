@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { createStudent, getStudent, updateStudent, deleteStudent, getAllStudent } from '../controllers/student.controller';
-import { validateStudent } from '../middlewares/student.middleware';
+import { createStudent, getStudent, updateStudent, deleteStudent, getAllStudents } from '../controllers/student.controller';
+import { validateInfoStudent, checkStudentByDPI } from '../middlewares/student.middleware';
 
 const router: Router = Router();
 
-router.post('/students', validateStudent, createStudent);
-router.get('/students', getAllStudent);
-router.get('/students/:id', getStudent);
-router.put('/students/:id', validateStudent, updateStudent);
-router.delete('/students/:id', deleteStudent);
+router.post('/', [validateInfoStudent, checkStudentByDPI], createStudent);
+router.get('/', getAllStudents);
+router.get('/:id', getStudent);
+router.put('/:id', validateInfoStudent, updateStudent);
+router.delete('/:id', deleteStudent);
 
 export default router;
