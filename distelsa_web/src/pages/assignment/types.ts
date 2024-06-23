@@ -1,5 +1,3 @@
-import { statusColorMap } from "../../components/templates/statusColor"
-
 export type AssignmentType = {
     "id_assignment": number,
     "id_student": number,

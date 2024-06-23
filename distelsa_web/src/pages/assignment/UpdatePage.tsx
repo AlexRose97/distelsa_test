@@ -103,7 +103,7 @@ export const UpdateAssignmentPage = () => {
   return (
     <Container>
       <Typography textAlign={"center"} variant="h3">
-        Actualizar Estudiante
+        Actualizar Asignación
       </Typography>
       <Stack direction={"column"} spacing={3} justifyContent={"center"} alignItems={"center"} padding={5}>
         <Select

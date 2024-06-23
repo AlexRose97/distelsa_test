@@ -111,7 +111,7 @@ export const CoursePage = () => {
       <Typography textAlign={"center"} variant="h3" paddingBottom={5}>
         Cursos
       </Typography>
-      <HeaderTable search={filterData} url={"/maintenance/course/add"} />
+      <HeaderTable search={filterData} url={"/maintenance/course/add"} isAddModule />
       <TablePagination columns={columns} rows={showData} />
     </Container>
   )

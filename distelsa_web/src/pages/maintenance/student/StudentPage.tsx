@@ -113,7 +113,7 @@ export const StudentPage = () => {
       <Typography textAlign={"center"} variant="h3" paddingBottom={5}>
         Estudiantes
       </Typography>
-      <HeaderTable search={filterData} url={"/maintenance/student/add"} />
+      <HeaderTable search={filterData} url={"/maintenance/student/add"} isAddModule/>
       <TablePagination columns={columns} rows={showData} />
     </Container>
   )

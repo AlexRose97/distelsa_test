@@ -46,22 +46,6 @@ export const AssignmentPage = () => {
     }
   }
 
-  const onDeleteChange = async (id: number | string) => {
-    try {
-      const result = await ApiClient.delete(`${API_URLS.ASSIGNMENTS}/${id}`);
-      if (result.error) {
-        console.log(result)
-        throw new Error(result.error);
-      }
-      successAlert({ message: result.message })
-      getAllData()
-    } catch (error) {
-      errorAlert({ message: String(error) })
-      console.log(error);
-    }
-    return;
-  }
-
   const filterData = async (search: string) => {
     setLoading(true);
     try {
@@ -113,7 +97,7 @@ export const AssignmentPage = () => {
       <Typography textAlign={"center"} variant="h3" paddingBottom={5}>
         Asignaciones
       </Typography>
-      <HeaderTable search={filterData} url={"/assignment/add"} />
+      <HeaderTable search={filterData} url={"/assignment/add"} isAddModule/>
       <TablePagination columns={columns} rows={showData} />
     </Container>
   )
