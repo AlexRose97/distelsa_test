@@ -6,8 +6,6 @@ import assignmentIMG from '../../assets/assignment.svg'
 import historyIMG from '../../assets/history.svg'
 export const HomePage = () => {
   const navigate = useNavigate();
-
-
   return (
     <Container>
       <br />
