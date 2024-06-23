@@ -142,7 +142,7 @@ export const updateCourse = async (req: Request, res: Response): Promise<void> =
     course.description = description;
     course.credits = credits;
     await course.save();
-    res.status(200).json({ message: 'ok', data: course });
+    res.status(200).json({ message: 'Course Update', data: course });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error', error });
   }

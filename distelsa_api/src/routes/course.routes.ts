@@ -35,7 +35,7 @@ const router: Router = Router();
 router.post('/', [validateInfoCourse, checkCourseByName], createCourse);
 router.get('/', getAllCourses);
 router.get('/:id', getCourse);
-router.put('/:id', validateInfoCourse, updateCourse);
+router.put('/:id', [validateInfoCourse, checkCourseByName], updateCourse);
 router.delete('/:id', deleteCourse);
 
 export default router;

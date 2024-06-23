@@ -20,7 +20,7 @@ export const HomePage = () => {
       <br />
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         <ListItemButton alignItems="flex-start"
-          onClick={() => navigate("/student")}
+          onClick={() => navigate("/maintenance/student")}
         >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={student2IMG} />
@@ -38,7 +38,7 @@ export const HomePage = () => {
         </ListItemButton>
         <Divider variant="inset" component="li" />
         <ListItemButton alignItems="flex-start"
-          onClick={() => navigate("/course", { replace: false })}
+          onClick={() => navigate("/maintenance/course", { replace: false })}
         >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={courseIMG} />

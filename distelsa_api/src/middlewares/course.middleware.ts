@@ -37,7 +37,14 @@ export const validateInfoCourse = (req: Request, res: Response, next: NextFuncti
 
 export const checkCourseByName = async (req: Request, res: Response, next: NextFunction) => {
     const { name = "" } = req.body;
+    const { id } = req.params;
     try {
+        if (id) {
+            const auxStudent = await Course.findByPk(id);
+            if (String(auxStudent?.name).toUpperCase() === String(name).toUpperCase()) {
+                return next();//update without changing DPI
+            }
+        }
         const course = await Course.findOne({
             where: where(fn('lower', col('NAME')), {
                 [Op.eq]: name.toLowerCase()

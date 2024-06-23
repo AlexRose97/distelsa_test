@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { TablePagination } from "../../components/templates/TablePagination"
-import { ColumnTablePaginationType } from "../../components/templates/types";
-import { Stack, Container } from "@mui/material";
-import { EditAction } from "../../components/templates/EditAction";
-import { DeleteAction } from "../../components/templates/DeleteAction";
+import { TablePagination } from "../../../components/templates/TablePagination"
+import { ColumnTablePaginationType } from "../../../components/templates/types";
+import { Stack, Container, Typography } from "@mui/material";
+import { EditAction } from "../../../components/templates/EditAction";
+import { DeleteAction } from "../../../components/templates/DeleteAction";
 
-import ApiClient from '../../services/apiClient';
-import API_URLS from "../../services/apiConfig"; '../../services/apiConfig';
+import ApiClient from '../../../services/apiClient';
+import API_URLS from "../../../services/apiConfig"; '../../services/apiConfig';
 import { StudentType } from "./types";
-import CustomAlert from "../../hooks/CustomAlert";
-import { HeaderTable } from "../../components/templates/HeaderTable";
+import CustomAlert from "../../../hooks/CustomAlert";
+import { HeaderTable } from "../../../components/templates/HeaderTable";
 
 const columns: ColumnTablePaginationType[] = [
   { name: "DPI", uid: "dpi" },
@@ -21,15 +21,15 @@ const columns: ColumnTablePaginationType[] = [
 
 export const StudentPage = () => {
   const [students, setStudents] = useState<StudentType[]>([]);
-  const [showStudents, setShowStudents] = useState<any[]>([]);
+  const [showData, setShowData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { errorAlert, successAlert } = CustomAlert();
 
   useEffect(() => {
-    getAllStudents();
+    getAllData();
   }, [])
 
-  const getAllStudents = async () => {
+  const getAllData = async () => {
     setLoading(true);
     try {
       const result = await ApiClient.get(API_URLS.STUDENTS);
@@ -37,7 +37,7 @@ export const StudentPage = () => {
         throw new Error(result.error);
       }
       setStudents(result.data);//data to filter
-      setShowStudents(formatRows(result.data))//data to show
+      setShowData(formatRows(result.data))//data to show
     } catch (error) {
       errorAlert({ message: String(error) })
       console.log(error);
@@ -46,7 +46,7 @@ export const StudentPage = () => {
     }
   }
 
-  const deleteStudent = async (id: number | string) => {
+  const onDeleteChange = async (id: number | string) => {
     try {
       const result = await ApiClient.delete(`${API_URLS.STUDENTS}/${id}`);
       if (result.error) {
@@ -54,7 +54,7 @@ export const StudentPage = () => {
         throw new Error(result.error);
       }
       successAlert({ message: result.message })
-      getAllStudents()
+      getAllData()
     } catch (error) {
       errorAlert({ message: String(error) })
       console.log(error);
@@ -71,7 +71,7 @@ export const StudentPage = () => {
         || String(item.last_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
         || String(item.name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
       );
-      setShowStudents(formatRows(newData))//data to show
+      setShowData(formatRows(newData))//data to show
     } catch (error) {
       errorAlert({ message: String(error) })
       console.log(error);
@@ -83,11 +83,12 @@ export const StudentPage = () => {
 
   function formatRows(data: StudentType[]): any[] {
     try {
-      const rows = data.map((item) => {
-        const path = `/student/${item.id_student}`;
+      const rows = data.map((item, i) => {
+        const path = `/maintenance/student/${item.id_student}`;
         const message = `¿Deseas eliminar el registro del estudiante con DPI:${item.dpi}?`;
         return {
-          id: item.id_student,
+          id: i,
+          id_student: item.id_student,
           dpi: item.dpi,
           name: item.name,
           last_name: item.last_name,
@@ -95,7 +96,7 @@ export const StudentPage = () => {
           actions: (
             <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
               <EditAction path={path} />
-              <DeleteAction message={message} onDelete={deleteStudent} id={item.id_student} />
+              <DeleteAction message={message} onDelete={onDeleteChange} id={item.id_student} />
             </Stack>
           )
         }
@@ -109,8 +110,11 @@ export const StudentPage = () => {
 
   return (
     <Container maxWidth="xl">
-      <HeaderTable search={filterData} url={"/student/add"}/>
-      <TablePagination columns={columns} rows={showStudents} />
+      <Typography textAlign={"center"} variant="h3" paddingBottom={5}>
+        Estudiantes
+      </Typography>
+      <HeaderTable search={filterData} url={"/maintenance/student/add"} />
+      <TablePagination columns={columns} rows={showData} />
     </Container>
   )
 }
