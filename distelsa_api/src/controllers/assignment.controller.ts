@@ -3,6 +3,8 @@ import Assignment from '../models/assignment.model';
 import Student from '../models/student.model';
 import Course from '../models/course.model';
 import sequelize from 'sequelize';
+import { sendResponse } from '../utils/responseHandler';
+import { ResponseTypes } from '../utils/responseTypes';
 
 /**
  * @swagger
@@ -38,10 +40,10 @@ export const createAssignment = async (req: Request, res: Response): Promise<voi
         status: String(status).toUpperCase()
       }
     );
-    res.status(201).json({ message: 'Assignment Add', data: assignment });
+    sendResponse(req, res, ResponseTypes.CREATED, { message: 'Assignment Add', data: assignment });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Internal server error', error });
+    sendResponse(req, res, ResponseTypes.INTERNAL_SERVER_ERROR, { message: 'Internal server error', error });
   }
 };
 
@@ -100,12 +102,12 @@ export const getAssignment = async (req: Request, res: Response): Promise<void> 
       }
     );
     if (!assignment) {
-      res.status(404).json({ message: 'Assignment not found', error: 'Assignment not found' });
+      sendResponse(req, res, ResponseTypes.BAD_REQUEST, { message: 'Assignment not found', error: 'Assignment not found' });
       return;
     }
-    res.status(200).json({ message: 'ok', data: assignment });
+    sendResponse(req, res, ResponseTypes.OK, { message: 'ok', data: assignment });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error', error });
+    sendResponse(req, res, ResponseTypes.INTERNAL_SERVER_ERROR, { message: 'Internal server error', error });
   }
 };
 
@@ -156,10 +158,10 @@ export const getAllAssignments = async (req: Request, res: Response): Promise<vo
         ],
       }
     );
-    res.status(200).json({ message: 'ok', data: assignments });
+    sendResponse(req, res, ResponseTypes.OK, { message: 'ok', data: assignments });
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: 'Internal server error', error });
+    sendResponse(req, res, ResponseTypes.INTERNAL_SERVER_ERROR, { message: 'Internal server error', error });
   }
 };
 
@@ -199,7 +201,7 @@ export const updateAssignment = async (req: Request, res: Response): Promise<voi
   try {
     const assignment = await Assignment.findByPk(req.params.id);
     if (!assignment) {
-      res.status(404).json({ message: 'Assignment not found', error: "Assignment not found" });
+      sendResponse(req, res, ResponseTypes.BAD_REQUEST, { message: 'Assignment not found', error: "Assignment not found" });
       return;
     }
     assignment.status = String(status).toUpperCase();
@@ -207,9 +209,9 @@ export const updateAssignment = async (req: Request, res: Response): Promise<voi
     assignment.id_course = id_course;
     assignment.id_student = id_student;
     await assignment.save();
-    res.status(200).json({ message: 'Assignment Update', data: assignment });
+    sendResponse(req, res, ResponseTypes.OK, { message: 'Assignment Update', data: assignment });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error', error });
+    sendResponse(req, res, ResponseTypes.INTERNAL_SERVER_ERROR, { message: 'Internal server error', error });
   }
 };
 
@@ -238,12 +240,12 @@ export const deleteAssignment = async (req: Request, res: Response): Promise<voi
   try {
     const assignment = await Assignment.findByPk(req.params.id);
     if (!assignment) {
-      res.status(404).json({ message: 'Assignment not found', error: 'Assignment not found' });
+      sendResponse(req, res, ResponseTypes.BAD_REQUEST, { message: 'Assignment not found', error: 'Assignment not found' });
       return;
     }
     await assignment.destroy();
-    res.status(200).json({ message: 'Assignment deleted' });
+    sendResponse(req, res, ResponseTypes.OK, { message: 'Assignment deleted' });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error', error });
+    sendResponse(req, res, ResponseTypes.INTERNAL_SERVER_ERROR, { message: 'Internal server error', error });
   }
 };
