@@ -27,7 +27,7 @@ export const createStudent = async (req: Request, res: Response): Promise<void> 
   const { name, last_name, email, dpi } = req.body;
   try {
     const student = await Student.create({ name, last_name, email, dpi });
-    res.status(201).json({ message: 'ok', data: student });
+    res.status(201).json({ message: 'Student Add', data: student });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error', error });

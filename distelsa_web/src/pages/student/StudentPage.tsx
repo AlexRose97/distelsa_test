@@ -109,7 +109,7 @@ export const StudentPage = () => {
 
   return (
     <Container maxWidth="xl">
-      <HeaderTable search={filterData}/>
+      <HeaderTable search={filterData} url={"/student/add"}/>
       <TablePagination columns={columns} rows={showStudents} />
     </Container>
   )

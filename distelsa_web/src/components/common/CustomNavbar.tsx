@@ -26,7 +26,7 @@ export const CustomNavbar = () => {
             >
               <Stack direction={"row"} alignItems={"center"} >
                 <img src={studentLogo} width={50} />
-                <p className="font-bold text-inherit">Gestion Usuarios</p>
+                <p className="font-bold text-inherit">Gestion de Alumnos</p>
               </Stack>
             </NavLink>
           </NavbarItem>
