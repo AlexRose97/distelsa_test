@@ -1,0 +1,28 @@
+/src
+  /components         --> Componentes reutilizables
+    /common           --> Componentes comunes (ej. botones, barras de navegación)
+    /courses          --> Componentes relacionados con cursos
+    /students         --> Componentes relacionados con estudiantes
+    /assignments      --> Componentes relacionados con asignaciones
+  /pages              --> Páginas principales de la aplicación
+    /courses          --> Páginas relacionadas con cursos (ej. CourseList, CourseDetail)
+    /students         --> Páginas relacionadas con estudiantes (ej. StudentList, StudentDetail)
+    /assignments      --> Páginas relacionadas con asignaciones (ej. AssignmentList, AssignmentDetail)
+  /services           --> Funcionalidades compartidas (ej. API calls)
+    /api              --> Archivos para llamar a la API
+    /utils            --> Utilidades generales (ej. funciones de ayuda)
+  /styles             --> Estilos globales (CSS, Sass, etc.)
+  /redux              --> Configuración de Redux (si se usa para el estado global)
+    /actions          --> Acciones Redux
+    /reducers         --> Reductores Redux
+    /store            --> Configuración del store Redux
+  /models             --> Modelos de datos (si es necesario)
+  /assets             --> Archivos estáticos (imágenes, fuentes, etc.)
+  /config             --> Configuración general de la aplicación (si es necesario)
+  /constants          --> Constantes de la aplicación (si es necesario)
+  /hooks              --> Hooks personalizados (si es necesario)
+  /tests              --> Pruebas unitarias y de integración
+  /translations       --> Archivos de traducción (si es una aplicación multilingüe)
+  App.js              --> Punto de entrada principal de la aplicación
+  index.js            --> Archivo de inicio de la aplicación
+  routes.js           --> Configuración de rutas de la aplicación
