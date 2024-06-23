@@ -1,0 +1,6 @@
+##**Crear y levantar los contenedores
+docker-compose up -d
+
+
+##**Detener y eliminar contenedores
+docker-compose down
