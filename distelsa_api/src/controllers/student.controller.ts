@@ -135,7 +135,7 @@ export const updateStudent = async (req: Request, res: Response): Promise<void> 
   try {
     const student = await Student.findByPk(req.params.id);
     if (!student) {
-      res.status(404).json({ message: 'Student not found' });
+      res.status(404).json({ message: 'Student not found', error: "Student not found" });
       return;
     }
     student.name = name;
@@ -174,7 +174,7 @@ export const deleteStudent = async (req: Request, res: Response): Promise<void> 
   try {
     const student = await Student.findByPk(req.params.id);
     if (!student) {
-      res.status(404).json({ message: 'Student not found' });
+      res.status(404).json({ message: 'Student not found', error: 'Student not found' });
       return;
     }
     await student.destroy();

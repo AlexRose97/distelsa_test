@@ -1,86 +1,94 @@
+import { useEffect, useState } from "react";
 import { TablePagination } from "../../components/templates/TablePagination"
-import { ColumnTablePagination } from "../../components/templates/types";
+import { ColumnTablePaginationType } from "../../components/templates/types";
 import { Stack, Container } from "@mui/material";
 import { EditAction } from "../../components/templates/EditAction";
 import { DeleteAction } from "../../components/templates/DeleteAction";
 import { Button, Input } from "@nextui-org/react";
 import AddIcon from '@mui/icons-material/Add';
-export const StudentPage = () => {
-  const columns: ColumnTablePagination[] = [
-    { name: "DPI", uid: "dpi" },
-    { name: "NOMBRE", uid: "name" },
-    { name: "APELLIDO", uid: "last_name" },
-    { name: "CORREO", uid: "email" },
-    { name: "", uid: "actions" }
-  ];
 
-  const rows = [
-    {
-      id: 1,
-      dpi: "12364569785213",
-      name: "CEO",
-      last_name: "ANULADO",
-      email: "data@data.com",
-      actions: (
-        <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
-          <EditAction path={`/student/${2}`} />
-          <DeleteAction />
-        </Stack>
-      )
-    },
-    {
-      id: 2,
-      dpi: "12364569785213",
-      name: "Technical Lead",
-      last_name: "RECHAZADO",
-      email: "data@data.com",
-      actions: (
-        <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
-          <EditAction path={`/student/${2}`} />
-          <DeleteAction />
-        </Stack>
-      )
-    },
-    {
-      id: 3,
-      dpi: "12364569785213",
-      name: "Senior Developer",
-      last_name: "active",
-      email: "data@data.com",
-      actions: (
-        <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
-          <EditAction path={`/student/${2}`} />
-          <DeleteAction />
-        </Stack>
-      )
-    },
-    {
-      id: 4,
-      dpi: "12364569785213",
-      name: "Community Manager",
-      last_name: "PENDIENTE",
-      email: "data@data.com",
-      actions: (
-        <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
-          <EditAction path={`/student/${2}`} />
-          <DeleteAction />
-        </Stack>
-      )
-    },
-    {
-      id: 5,
-      dpi: "12364569785213",
-      name: "Sales Manager",
-      last_name: "APROBADO",
-      email: "data@data.com",
-      actions: (
-        <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
-          <EditAction path={`/student/${2}`} />
-          <DeleteAction />
-        </Stack>
-      )
-    },
-  ];
+import ApiClient from '../../services/apiClient';
+import API_URLS from "../../services/apiConfig"; '../../services/apiConfig';
+import { StudentType } from "./types";
+
+const columns: ColumnTablePaginationType[] = [
+  { name: "DPI", uid: "dpi" },
+  { name: "NOMBRE", uid: "name" },
+  { name: "APELLIDO", uid: "last_name" },
+  { name: "CORREO", uid: "email" },
+  { name: "", uid: "actions" }
+];
+
+
+
+export const StudentPage = () => {
+  const [students, setStudents] = useState<StudentType[]>([]);
+  const [showStudents, setShowStudents] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [refresh, setRefresh] = useState<number>(0);
+
+  useEffect(() => {
+    getAllStudents();
+  }, [refresh])
+
+  const getAllStudents = async () => {
+    setLoading(true);
+    try {
+      const result = await ApiClient.get(API_URLS.STUDENTS);
+      if (result.error) {
+        throw new Error(result.error);
+      }
+      setStudents(result.data);//data to filter
+      setShowStudents(formatRows(result.data))//data to show
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const deleteStudent = async (id: number | string) => {
+    setLoading(true);
+    try {
+      const result = await ApiClient.delete(`${API_URLS.STUDENTS}/${id}`);
+      if (result.error) {
+        throw new Error(result.error);
+      }
+      setStudents(result.data);//data to filter
+      setShowStudents(formatRows(result.data))//data to show
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    } finally {
+      setLoading(false);
+    }
+    return;
+  }
+
+  function formatRows(data: StudentType[]): any[] {
+    try {
+      const rows = data.map((item) => {
+        const path = `/student/${item.id_student}`;
+        const message = `¿Deseas eliminar el registro del estudiante con DPI:${item.dpi}?`;
+        return {
+          id: item.id_student,
+          dpi: item.dpi,
+          name: item.name,
+          last_name: item.last_name,
+          email: item.email,
+          actions: (
+            <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
+              <EditAction path={path} />
+              <DeleteAction message={message} onDelete={deleteStudent} id={item.id_student} />
+            </Stack>
+          )
+        }
+      })
+      return rows;
+    } catch (error) {
+      console.log(error)
+      return []
+    }
+  }
 
   return (
     <Container maxWidth="xl">
@@ -95,7 +103,7 @@ export const StudentPage = () => {
           Agregar
         </Button>
       </Stack>
-      <TablePagination columns={columns} rows={rows} />
+      <TablePagination columns={columns} rows={showStudents} />
     </Container>
   )
 }

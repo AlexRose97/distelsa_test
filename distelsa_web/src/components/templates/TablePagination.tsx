@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
-import { ColumnTablePagination } from "./types";
+import { ColumnTablePaginationType } from "./types";
 import { statusColorMap } from "./statusColor";
 
 interface TablePaginationProps {
-    columns: ColumnTablePagination[],
+    columns: ColumnTablePaginationType[],
     rows: any[]
 }
 

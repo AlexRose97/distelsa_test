@@ -63,7 +63,7 @@ export const getCourse = async (req: Request, res: Response): Promise<void> => {
   try {
     const course = await Course.findByPk(req.params.id);
     if (!course) {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: 'Course not found', error: 'Course not found' });
       return;
     }
     res.status(200).json({ message: 'ok', data: course });
@@ -135,7 +135,7 @@ export const updateCourse = async (req: Request, res: Response): Promise<void> =
   try {
     const course = await Course.findByPk(req.params.id);
     if (!course) {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: 'Course not found', error: 'Course not found' });
       return;
     }
     course.name = name;
@@ -173,7 +173,7 @@ export const deleteCourse = async (req: Request, res: Response): Promise<void> =
   try {
     const course = await Course.findByPk(req.params.id);
     if (!course) {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: 'Course not found', error: 'Course not found' });
       return;
     }
     await course.destroy();

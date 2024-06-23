@@ -1,8 +1,8 @@
 
-import EditIcon from '@mui/icons-material/Edit';
 import { Tooltip } from "@nextui-org/react";
 import { FC } from 'react';
 import { useNavigate } from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
 
 interface EditActionProps {
     path: string; //ruta que debe mostrar el navegador
@@ -11,7 +11,7 @@ interface EditActionProps {
 export const EditAction: FC<EditActionProps> = ({ path }) => {
     const navigate = useNavigate();
     return (
-        <Tooltip content="Edit user">
+        <Tooltip content="Editar">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50"
                 onClick={() => navigate(path)}
             >
