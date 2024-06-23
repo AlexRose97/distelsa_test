@@ -74,7 +74,7 @@ export const HomePage = () => {
         </ListItemButton>
         <Divider variant="inset" component="li" />
         <ListItemButton alignItems="flex-start"
-          onClick={() => navigate("/history", { replace: false })}
+          onClick={() => navigate("/logs", { replace: false })}
         >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={historyIMG} />
