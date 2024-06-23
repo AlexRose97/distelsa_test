@@ -18,7 +18,7 @@ export const DeleteAction: FC<DeleteActionProps> = ({ message, onDelete, id }) =
     const eliminarRegistro = async () => {
         try {
             setLoading(true);
-            await onDelete(1000);
+            await onDelete(id);
             onClose()
         } catch (error) {
         } finally {

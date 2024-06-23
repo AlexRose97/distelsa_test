@@ -4,12 +4,12 @@ import { ColumnTablePaginationType } from "../../components/templates/types";
 import { Stack, Container } from "@mui/material";
 import { EditAction } from "../../components/templates/EditAction";
 import { DeleteAction } from "../../components/templates/DeleteAction";
-import { Button, Input } from "@nextui-org/react";
-import AddIcon from '@mui/icons-material/Add';
 
 import ApiClient from '../../services/apiClient';
 import API_URLS from "../../services/apiConfig"; '../../services/apiConfig';
 import { StudentType } from "./types";
+import CustomAlert from "../../hooks/CustomAlert";
+import { HeaderTable } from "../../components/templates/HeaderTable";
 
 const columns: ColumnTablePaginationType[] = [
   { name: "DPI", uid: "dpi" },
@@ -19,17 +19,15 @@ const columns: ColumnTablePaginationType[] = [
   { name: "", uid: "actions" }
 ];
 
-
-
 export const StudentPage = () => {
   const [students, setStudents] = useState<StudentType[]>([]);
   const [showStudents, setShowStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [refresh, setRefresh] = useState<number>(0);
+  const { errorAlert, successAlert } = CustomAlert();
 
   useEffect(() => {
     getAllStudents();
-  }, [refresh])
+  }, [])
 
   const getAllStudents = async () => {
     setLoading(true);
@@ -41,23 +39,42 @@ export const StudentPage = () => {
       setStudents(result.data);//data to filter
       setShowStudents(formatRows(result.data))//data to show
     } catch (error) {
-      console.error('Failed to fetch students:', error);
+      errorAlert({ message: String(error) })
+      console.log(error);
     } finally {
       setLoading(false);
     }
   }
 
   const deleteStudent = async (id: number | string) => {
-    setLoading(true);
     try {
       const result = await ApiClient.delete(`${API_URLS.STUDENTS}/${id}`);
       if (result.error) {
+        console.log(result)
         throw new Error(result.error);
       }
-      setStudents(result.data);//data to filter
-      setShowStudents(formatRows(result.data))//data to show
+      successAlert({ message: result.message })
+      getAllStudents()
     } catch (error) {
-      console.error('Failed to fetch students:', error);
+      errorAlert({ message: String(error) })
+      console.log(error);
+    }
+    return;
+  }
+
+  const filterData = async (search: string) => {
+    setLoading(true);
+    try {
+      const newData = students.filter((item) =>
+        String(item.dpi).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.email).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.last_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+      );
+      setShowStudents(formatRows(newData))//data to show
+    } catch (error) {
+      errorAlert({ message: String(error) })
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -92,17 +109,7 @@ export const StudentPage = () => {
 
   return (
     <Container maxWidth="xl">
-      <Stack direction={"row"} spacing={10} justifyContent={"center"} alignItems={"center"}>
-        <Input label="Buscar" className="max-w-xl"></Input>
-        <Button color="primary" size="lg" >
-          Button
-        </Button>
-      </Stack>
-      <Stack direction={"row"} justifyContent={"end"} padding={2}>
-        <Button color="secondary" size="lg" endContent={<AddIcon />} >
-          Agregar
-        </Button>
-      </Stack>
+      <HeaderTable search={filterData}/>
       <TablePagination columns={columns} rows={showStudents} />
     </Container>
   )

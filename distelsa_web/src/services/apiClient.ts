@@ -22,7 +22,7 @@ class ApiClient {
         return config;
       },
       (error: AxiosError) => {
-        return Promise.reject(error);
+        return this.handleError(error);
       }
     );
 
@@ -30,8 +30,7 @@ class ApiClient {
     this.client.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError) => {
-        this.handleError(error);
-        return Promise.reject(error);
+        return this.handleError(error);
       }
     );
   }
@@ -71,21 +70,25 @@ class ApiClient {
   }
 
   // Método para manejar errores
-  private handleError(error: AxiosError): void {
-    console.error('API Client Error:', error);
-    // Puedes personalizar cómo manejar el error aquí
-    if (error.response) {
-      // Respuesta de servidor con status fuera de 2xx
-      console.error('Error data:', error.response.data);
-      console.error('Error status:', error.response.status);
-      console.error('Error headers:', error.response.headers);
-    } else if (error.request) {
-      // No se recibió respuesta
-      console.error('Error request:', error.request);
-    } else {
-      // Error al configurar la solicitud
-      console.error('Error message:', error.message);
+  private handleError(error: any) {
+    let result: responseApi = {
+      data: "",
+      error: "",
+      message: ""
     }
+    try {
+      if (error.response) {
+        // Respuesta de servidor
+        result = {
+          data: error.response.data || "",
+          error: error.response.data?.error || "An error occurred",
+          message: error.response.data?.message || error.message || "An error occurred"
+        };
+      }
+    } catch (error) {
+      result.error = String(error)
+    }
+    return result
   }
 }
 
