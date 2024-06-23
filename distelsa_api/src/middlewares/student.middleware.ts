@@ -40,14 +40,21 @@ export const validateInfoStudent = (req: Request, res: Response, next: NextFunct
     if (String(dpi).length !== 13) {
         return res.status(400).json({ message: 'DPI must be 13 characters', error: 'DPI must be 13 characters' });
     }
-    next();
+    return next();
 };
 
 export const checkStudentByDPI = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
     const { dpi } = req.body;
+    if (id) {
+        const auxStudent = await Student.findByPk(id);
+        if (String(auxStudent?.dpi) === String(dpi)) {
+            return next();//update without changing DPI
+        }
+    }
     const user = await Student.findOne({ where: { dpi: dpi } });
     if (user) {
         return res.status(400).json({ message: 'There is already a registered student with that dpi', error: 'There is already a registered student with that dpi' });
     }
-    next();
+    return next();
 };

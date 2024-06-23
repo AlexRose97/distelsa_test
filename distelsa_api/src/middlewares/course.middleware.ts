@@ -32,7 +32,7 @@ export const validateInfoCourse = (req: Request, res: Response, next: NextFuncti
     if (String(description).length == 0 || String(description).length > 50) {
         return res.status(400).json({ message: 'description must be between 1 and 255 characters', error: 'description must be between 1 and 255 characters' });
     }
-    next();
+    return next();
 };
 
 export const checkCourseByName = async (req: Request, res: Response, next: NextFunction) => {
@@ -46,7 +46,7 @@ export const checkCourseByName = async (req: Request, res: Response, next: NextF
         if (course) {
             return res.status(400).json({ message: 'There is already a registered course with that name', error: 'There is already a registered course with that name' });
         }
-        next();
+        return next();
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error', error: 'Internal server error' });

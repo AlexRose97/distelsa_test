@@ -40,7 +40,7 @@ const router: Router = Router();
 router.post('/', [validateInfoStudent, checkStudentByDPI], createStudent);
 router.get('/', getAllStudents);
 router.get('/:id', getStudent);
-router.put('/:id', validateInfoStudent, updateStudent);
+router.put('/:id', [validateInfoStudent, checkStudentByDPI], updateStudent);
 router.delete('/:id', deleteStudent);
 
 export default router;
