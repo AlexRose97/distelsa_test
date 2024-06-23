@@ -1,4 +1,4 @@
-import Log, { ILog } from './LogSchema';
+import Log, { ILog } from '../models/logger.model';
 import MongoConnection from './mongo';
 
 interface LogOptions {

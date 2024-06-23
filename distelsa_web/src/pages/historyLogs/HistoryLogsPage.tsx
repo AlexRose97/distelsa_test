@@ -11,12 +11,12 @@ import CustomAlert from "../../hooks/CustomAlert";
 import { HeaderTable } from "../../components/templates/HeaderTable";
 
 const columns: ColumnTablePaginationType[] = [
-  { name: "ESTUDIANTE", uid: "student_name" },
-  { name: "CURSO", uid: "course_name" },
-  { name: "ESTATUS", uid: "status" },
-  { name: "FECHA ASIGNACION", uid: "assignment_date" },
-  { name: "FECHA ACTUALIZACION", uid: "update_date" },
-  { name: "", uid: "actions" }
+  { name: "TIPO", uid: "type" },
+  { name: "MENSAJE", uid: "message" },
+  { name: "FECHA", uid: "timestamp" },
+  { name: "ESTATUS", uid: "statusCode" },
+  { name: "URL", uid: "path" },
+  { name: "REQUEST", uid: "params" },
 ];
 
 export const HistoryLogsPage = () => {
@@ -50,11 +50,11 @@ export const HistoryLogsPage = () => {
     setLoading(true);
     try {
       const newData = assignments.filter((item) =>
-        String(item.assignment_date).toLocaleUpperCase().includes(search.toLocaleUpperCase())
-        || String(item.update_date).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        String(item.message).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.timestamp).toLocaleUpperCase().includes(search.toLocaleUpperCase())
         || String(item.course_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
-        || String(item.student_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
-        || String(item.status).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.statusCode).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.path).toLocaleUpperCase().includes(search.toLocaleUpperCase())
       );
       setShowData(formatRows(newData))//data to show
     } catch (error) {
@@ -69,20 +69,14 @@ export const HistoryLogsPage = () => {
   function formatRows(data: LogType[]): any[] {
     try {
       const rows = data.map((item, i) => {
-        const path = `/assignment/${item.id_student}`;
         return {
           id: i,
-          id_assignment: item.id_assignment,
-          status: item.status,
-          student_name: item.student_name,
-          course_name: item.course_name,
-          assignment_date: item.assignment_date,
-          update_date: item.update_date,
-          actions: (
-            <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
-              <EditAction path={path} />
-            </Stack>
-          )
+          type: item.type,
+          message: item.message,
+          timestamp: item.timestamp,
+          statusCode: item.statusCode,
+          path: item.path,
+          params: item.params,
         }
       })
       return rows;

@@ -6,6 +6,7 @@ import cors from 'cors'; // Importar cors
 import studentRoutes from './routes/student.routes';
 import courseRoutes from './routes/course.routes';
 import assignmentRoutes from './routes/assignment.routes';
+import logRoutes from './routes/logger.routes';
 import MongoConnection from './db/mongo';
 import { setupSwagger } from './config/swagger';
 
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
     app.use('/api/students', studentRoutes);
     app.use('/api/courses', courseRoutes);
     app.use('/api/assignments', assignmentRoutes);
+    app.use('/api/logs', logRoutes);
     setupSwagger(app);  // Configura Swagger
   } catch (error) {
     console.error('Error connecting to MongoDB', error);
