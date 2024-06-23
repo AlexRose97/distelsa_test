@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Student from '../models/student.model';
 import { RegexConstants } from '../utils/regexConstants';
+import Assignment from '../models/assignment.model';
 
 
 export const validateInfoStudent = (req: Request, res: Response, next: NextFunction) => {
@@ -62,6 +63,23 @@ export const checkStudentByDPI = async (req: Request, res: Response, next: NextF
         const user = await Student.findOne({ where: { dpi: dpi } });
         if (user) {
             return res.status(400).json({ message: 'There is already a registered student with that dpi', error: 'There is already a registered student with that dpi' });
+        }
+        return next();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', error: 'Internal server error' });
+    }
+};
+
+
+export const checkAssignment = async (req: Request, res: Response, next: NextFunction) => {
+    const { id: id_student } = req.params;
+    try {
+        const existingAssignment = await Assignment.findOne({ where: { id_student }, });
+
+        if (existingAssignment) {
+            // Si la asignación ya existe, devuelve un error 400
+            return res.status(400).json({ message: 'Assignment already exists for this student', error: 'Assignment already exists for this student' });
         }
         return next();
     } catch (error) {

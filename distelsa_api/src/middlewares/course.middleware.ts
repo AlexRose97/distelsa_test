@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import Course from '../models/course.model';
 import { RegexConstants } from '../utils/regexConstants';
 import { Op, fn, col, where } from 'sequelize';
+import Assignment from '../models/assignment.model';
 
 
 export const validateInfoCourse = (req: Request, res: Response, next: NextFunction) => {
@@ -52,6 +53,22 @@ export const checkCourseByName = async (req: Request, res: Response, next: NextF
         });
         if (course) {
             return res.status(400).json({ message: 'There is already a registered course with that name', error: 'There is already a registered course with that name' });
+        }
+        return next();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', error: 'Internal server error' });
+    }
+};
+
+export const checkAssignment = async (req: Request, res: Response, next: NextFunction) => {
+    const { id: id_course } = req.params;
+    try {
+        const existingAssignment = await Assignment.findOne({ where: { id_course }, });
+
+        if (existingAssignment) {
+            // Si la asignación ya existe, devuelve un error 400
+            return res.status(400).json({ message: 'Assignment already exists for this course', error: 'Assignment already exists for this course' });
         }
         return next();
     } catch (error) {

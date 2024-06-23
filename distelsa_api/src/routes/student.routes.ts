@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createStudent, getStudent, updateStudent, deleteStudent, getAllStudents } from '../controllers/student.controller';
-import { validateInfoStudent, checkStudentByDPI } from '../middlewares/student.middleware';
+import { validateInfoStudent, checkStudentByDPI, checkAssignment } from '../middlewares/student.middleware';
 
 const router: Router = Router();
 /**
@@ -41,6 +41,6 @@ router.post('/', [validateInfoStudent, checkStudentByDPI], createStudent);
 router.get('/', getAllStudents);
 router.get('/:id', getStudent);
 router.put('/:id', [validateInfoStudent, checkStudentByDPI], updateStudent);
-router.delete('/:id', deleteStudent);
+router.delete('/:id',[checkAssignment], deleteStudent);
 
 export default router;

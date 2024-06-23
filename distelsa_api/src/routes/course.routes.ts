@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse } from '../controllers/course.controller';
-import { validateInfoCourse, checkCourseByName } from '../middlewares/course.middleware';
+import { validateInfoCourse, checkCourseByName, checkAssignment } from '../middlewares/course.middleware';
 
 const router: Router = Router();
 /**
@@ -36,6 +36,6 @@ router.post('/', [validateInfoCourse, checkCourseByName], createCourse);
 router.get('/', getAllCourses);
 router.get('/:id', getCourse);
 router.put('/:id', [validateInfoCourse, checkCourseByName], updateCourse);
-router.delete('/:id', deleteCourse);
+router.delete('/:id', [checkAssignment], deleteCourse);
 
 export default router;
