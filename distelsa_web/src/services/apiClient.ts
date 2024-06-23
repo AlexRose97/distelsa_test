@@ -70,25 +70,27 @@ class ApiClient {
   }
 
   // Método para manejar errores
-  private handleError(error: any) {
+  private handleError(error: any): Promise<responseApi> {
     let result: responseApi = {
       data: "",
-      error: "",
+      error: "error",
       message: ""
     }
     try {
       if (error.response) {
         // Respuesta de servidor
         result = {
-          data: error.response.data || "",
-          error: error.response.data?.error || "An error occurred",
-          message: error.response.data?.message || error.message || "An error occurred"
+          data: error?.response?.data || "",
+          error: error?.response?.data?.error || "An error occurred",
+          message: error?.response?.data?.message || error?.message || "An error occurred"
         };
       }
     } catch (error) {
       result.error = String(error)
     }
-    return result
+    result.data = result
+    // console.log("##########result",result)
+    return Promise.resolve(result);
   }
 }
 

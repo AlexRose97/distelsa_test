@@ -22,7 +22,7 @@ export const CustomNavbar = () => {
           <NavbarItem>
             <NavLink
               className={({ isActive }) => { return `nav-item nav-link ${isActive ? 'active' : ''}` }}
-              to="/Assignment"
+              to="/"
             >
               <Stack direction={"row"} alignItems={"center"} >
                 <img src={studentLogo} width={50} />
