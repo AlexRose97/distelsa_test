@@ -1,4 +1,4 @@
-export type AssignmentType = {
+export type LogType = {
     "id_assignment": number,
     "id_student": number,
     "student_name": string,
@@ -7,10 +7,9 @@ export type AssignmentType = {
     "status": "PENDIENTE" | "APROBADO" | "RECHAZADO" | "ANULADO",
     "assignment_date": Date
     "update_date": Date
-    "student_dpi": string
 }
 
-export const EmptyAssignmentType: AssignmentType = {
+export const EmptyLogType: LogType = {
     "id_assignment": 0,
     "id_student": 0,
     "student_name": "",
@@ -18,13 +17,5 @@ export const EmptyAssignmentType: AssignmentType = {
     "course_name": "",
     "status": "PENDIENTE",
     "assignment_date": new Date(),
-    "update_date": new Date(),
-    "student_dpi": ""
+    "update_date": new Date()
 }
-
-export const StatusList = [
-    { code: 1, label: 'PENDIENTE' },
-    { code: 2, label: 'APROBADO' },
-    { code: 3, label: 'RECHAZADO' },
-    { code: 4, label: 'ANULADO' },
-]

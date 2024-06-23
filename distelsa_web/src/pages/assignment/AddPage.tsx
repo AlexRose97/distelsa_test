@@ -4,7 +4,7 @@ import { Button, Input } from "@nextui-org/react";
 import { Stack, Container, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { AssignmentType, EmptyAssignmentType } from "./types";
+import { AssignmentType, EmptyAssignmentType, StatusList } from "./types";
 import { Select, SelectItem } from "@nextui-org/react";
 
 import ApiClient from '../../services/apiClient';
@@ -60,7 +60,12 @@ export const AddAssignmentPage = () => {
   const saveChange = async () => {
     setLoadingAdd(true);
     try {
-      const result = await ApiClient.post(`${API_URLS.ASSIGNMENTS}`, assignment);
+      const result = await ApiClient.post(`${API_URLS.ASSIGNMENTS}`,
+        {
+          ...assignment,
+          status: "PENDIENTE"
+        }
+      );
       if (result.error) {
         throw new Error(result.error);
       }
@@ -81,7 +86,7 @@ export const AddAssignmentPage = () => {
       </Typography>
       <Stack direction={"column"} spacing={3} justifyContent={"center"} alignItems={"center"} padding={5}>
         <Select
-          value={String(assignment.id_course)}
+          selectedKeys={[String(assignment.id_course)]}
           label="Curso"
           name="id_course"
           className="max-w-xl"
@@ -92,7 +97,7 @@ export const AddAssignmentPage = () => {
           ))}
         </Select>
         <Select
-          value={String(assignment.id_student)}
+          selectedKeys={[String(assignment.id_student)]}
           label="Estudiante"
           name="id_student"
           className="max-w-xl"
@@ -102,7 +107,18 @@ export const AddAssignmentPage = () => {
             <SelectItem key={item.id_student} value={item.id_student}>{`${item.dpi} - ${item.name} ${item.last_name}`}</SelectItem>
           ))}
         </Select>
-        <Input label="ESTATUS" className="max-w-xl" value={assignment.status} name="status" onChange={onChange} disabled></Input>
+        <Select
+          selectedKeys={[String(StatusList.find(x=>(x.label).toUpperCase()==="PENDIENTE")?.code)]}
+          label="ESTATUS"
+          name="status"
+          className="max-w-xl"
+          onChange={onChangeSelect}
+          isDisabled
+        >
+          {StatusList.map(item => (
+            <SelectItem key={item.code} value={item.label}>{`${item.label}`}</SelectItem>
+          ))}
+        </Select>
         <Stack direction={"row"} spacing={10} >
           <Button color="secondary" size="lg" endContent={<SaveIcon />}
             onClick={saveChange}

@@ -81,7 +81,7 @@ class ApiClient {
         // Respuesta de servidor
         result = {
           data: error?.response?.data || "",
-          error: error?.response?.data?.error || "An error occurred",
+          error: JSON.stringify(error?.response?.data?.error || "An error occurred"),
           message: error?.response?.data?.message || error?.message || "An error occurred"
         };
       }

@@ -5,7 +5,7 @@ import { AddStudentPage, StudentPage, UpdateStudentPage } from "./pages/maintena
 import { AddCoursePage, CoursePage, UpdateCoursePage } from "./pages/maintenance/course"
 import { Maintenance } from "./pages/maintenance/Maintenance"
 import { AssignmentPage, AddAssignmentPage, UpdateAssignmentPage } from "./pages/assignment"
-import { LogsPage } from "./pages/logs/LogsPage"
+import { HistoryLogsPage } from "./pages/historyLogs/HistoryLogsPage"
 
 export const AppRouter = () => {
   return (
@@ -27,7 +27,7 @@ export const AppRouter = () => {
         <Route path="/Assignment/add" element={<AddAssignmentPage />} />
         <Route path="/Assignment/:id" element={<UpdateAssignmentPage />} />
         {/* Logs */}
-        <Route path="/Logs" element={<LogsPage />} />
+        <Route path="/Logs" element={<HistoryLogsPage />} />
       </Route>
     </Routes>
   )

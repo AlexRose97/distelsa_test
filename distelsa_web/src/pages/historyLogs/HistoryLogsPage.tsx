@@ -6,12 +6,11 @@ import { EditAction } from "../../components/templates/EditAction";
 
 import ApiClient from '../../services/apiClient';
 import API_URLS from "../../services/apiConfig"; '../../services/apiConfig';
-import { AssignmentType } from "./types";
+import { LogType } from "./types";
 import CustomAlert from "../../hooks/CustomAlert";
 import { HeaderTable } from "../../components/templates/HeaderTable";
 
 const columns: ColumnTablePaginationType[] = [
-  { name: "DPI", uid: "student_dpi" },
   { name: "ESTUDIANTE", uid: "student_name" },
   { name: "CURSO", uid: "course_name" },
   { name: "ESTATUS", uid: "status" },
@@ -20,8 +19,8 @@ const columns: ColumnTablePaginationType[] = [
   { name: "", uid: "actions" }
 ];
 
-export const AssignmentPage = () => {
-  const [assignments, setAssignments] = useState<AssignmentType[]>([]);
+export const HistoryLogsPage = () => {
+  const [assignments, setAssignments] = useState<LogType[]>([]);
   const [showData, setShowData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { errorAlert, successAlert } = CustomAlert();
@@ -33,7 +32,7 @@ export const AssignmentPage = () => {
   const getAllData = async () => {
     setLoading(true);
     try {
-      const result = await ApiClient.get(API_URLS.ASSIGNMENTS);
+      const result = await ApiClient.get(API_URLS.LOGS);
       if (result.error) {
         throw new Error(result.error);
       }
@@ -51,9 +50,10 @@ export const AssignmentPage = () => {
     setLoading(true);
     try {
       const newData = assignments.filter((item) =>
-        String(item.course_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        String(item.assignment_date).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.update_date).toLocaleUpperCase().includes(search.toLocaleUpperCase())
+        || String(item.course_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
         || String(item.student_name).toLocaleUpperCase().includes(search.toLocaleUpperCase())
-        || String(item.student_dpi).toLocaleUpperCase().includes(search.toLocaleUpperCase())
         || String(item.status).toLocaleUpperCase().includes(search.toLocaleUpperCase())
       );
       setShowData(formatRows(newData))//data to show
@@ -66,10 +66,10 @@ export const AssignmentPage = () => {
     return;
   }
 
-  function formatRows(data: AssignmentType[]): any[] {
+  function formatRows(data: LogType[]): any[] {
     try {
       const rows = data.map((item, i) => {
-        const path = `/assignment/${item.id_assignment}`;
+        const path = `/assignment/${item.id_student}`;
         return {
           id: i,
           id_assignment: item.id_assignment,
@@ -78,7 +78,6 @@ export const AssignmentPage = () => {
           course_name: item.course_name,
           assignment_date: item.assignment_date,
           update_date: item.update_date,
-          student_dpi: item.student_dpi,
           actions: (
             <Stack direction={"row"} alignContent={"space-around"} justifyContent={"center"} spacing={2}>
               <EditAction path={path} />
@@ -96,9 +95,9 @@ export const AssignmentPage = () => {
   return (
     <Container maxWidth="xl">
       <Typography textAlign={"center"} variant="h3" paddingBottom={5}>
-        Asignaciones
+        Historial de Acciones
       </Typography>
-      <HeaderTable search={filterData} url={"/assignment/add"} isAddModule />
+      <HeaderTable search={filterData} url={"/assignment/add"} />
       <TablePagination columns={columns} rows={showData} />
     </Container>
   )

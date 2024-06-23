@@ -4,7 +4,7 @@ import { Button, Input } from "@nextui-org/react";
 import { Stack, Container, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { AssignmentType, EmptyAssignmentType } from "./types";
+import { AssignmentType, EmptyAssignmentType, StatusList } from "./types";
 import { Select, SelectItem } from "@nextui-org/react";
 
 
@@ -26,13 +26,10 @@ export const UpdateAssignmentPage = () => {
 
   useEffect(() => {
     if (id) {
-      getData();
+      getAllData();
     }
   }, [id])
 
-  useEffect(() => {
-    getAllData();
-  }, [])
 
   const getAllData = async () => {
     setLoading(true);
@@ -48,33 +45,15 @@ export const UpdateAssignmentPage = () => {
         throw new Error(resultStudents.error);
       }
       setStudents(resultStudents.data);//data to filter
-    } catch (error) {
-      errorAlert({ message: String(error) })
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { target: { value, name } } = e;
-    setAssignment((item) => ({ ...item, [name]: value }))
-  }
-  const onChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    const { target: { value, name } } = e;
-    console.log({ value, name })
-    setAssignment((item) => ({ ...item, [name]: Number(value) }))
-  };
-
-
-  const getData = async () => {
-    setLoading(true);
-    try {
       const result = await ApiClient.get(`${API_URLS.ASSIGNMENTS}/${id}`);
       if (result.error) {
         throw new Error(result.error);
       }
-      setAssignment(result.data)
+      setAssignment({
+        ...result.data,
+        status: StatusList.find(x => String(result.data.status).toUpperCase() === String(x.label).toUpperCase())?.code//get Label of status
+      })//data assignment
     } catch (error) {
       errorAlert({ message: String(error) })
       console.log(error);
@@ -83,10 +62,20 @@ export const UpdateAssignmentPage = () => {
     }
   }
 
+  const onChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { target: { value, name } } = e;
+    setAssignment((item) => ({ ...item, [name]: Number(value) }))
+  };
+
   const saveChange = async () => {
     setLoadingUpdate(true);
     try {
-      const result = await ApiClient.put(`${API_URLS.ASSIGNMENTS}/${id}`, assignment);
+      const result = await ApiClient.put(`${API_URLS.ASSIGNMENTS}/${id}`,
+        {
+          ...assignment,
+          status: StatusList.find(x => String(assignment.status) === String(x.code))?.label//get Label of status
+        }
+      );
       if (result.error) {
         throw new Error(result.error);
       }
@@ -107,7 +96,7 @@ export const UpdateAssignmentPage = () => {
       </Typography>
       <Stack direction={"column"} spacing={3} justifyContent={"center"} alignItems={"center"} padding={5}>
         <Select
-          value={String(assignment.id_course)}
+          selectedKeys={[String(assignment.id_course)]}
           label="Curso"
           name="id_course"
           className="max-w-xl"
@@ -118,7 +107,7 @@ export const UpdateAssignmentPage = () => {
           ))}
         </Select>
         <Select
-          value={String(assignment.id_student)}
+          selectedKeys={[String(assignment.id_student)]}
           label="Estudiante"
           name="id_student"
           className="max-w-xl"
@@ -128,7 +117,17 @@ export const UpdateAssignmentPage = () => {
             <SelectItem key={item.id_student} value={item.id_student}>{`${item.dpi} - ${item.name} ${item.last_name}`}</SelectItem>
           ))}
         </Select>
-        <Input label="ESTATUS" className="max-w-xl" value={assignment.status} name="status" onChange={onChange} disabled></Input>
+        <Select
+          selectedKeys={[String(assignment.status)]}
+          label="ESTATUS"
+          name="status"
+          className="max-w-xl"
+          onChange={onChangeSelect}
+        >
+          {StatusList.map(item => (
+            <SelectItem key={item.code} value={item.label}>{`${item.label}`}</SelectItem>
+          ))}
+        </Select>
         <Stack direction={"row"} spacing={10} >
           <Button color="secondary" size="lg" endContent={<SaveIcon />}
             onClick={saveChange}
