@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
-import OracleConnection from '../db/oracle';
-import Student from './student.model';
-import Course from './course.model';
+import OracleConnection from '../../../db/oracle';
+import Student from '../../student/models/student.model';
+import Course from '../../course/models/course.model';
 
 const sequelize = OracleConnection.getInstance();
 

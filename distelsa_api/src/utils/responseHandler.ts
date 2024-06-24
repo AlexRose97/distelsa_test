@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import { ResponseTypes, ResponseTypes_STATUS_CODE } from './responseTypes';
 import { ApiResponse } from './responseTypes';
-import { logToDatabase } from '../db/logger';
+import { logToDatabase } from './logger';
 
 export const sendResponse = (req: Request, res: Response, typeRes: keyof typeof ResponseTypes, response: ApiResponse): void => {
   const statusCode = ResponseTypes_STATUS_CODE[typeRes];

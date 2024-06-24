@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { secretsManager } from '../config/secrets';
-import Student from '../models/student.model';
+import Student from '../services/student/models/student.model';
 
 class OracleConnection {
     private static instance: Sequelize;

@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import OracleConnection from '../db/oracle';
+import OracleConnection from '../../../db/oracle';
 
 const sequelize = OracleConnection.getInstance();
 

@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Course from '../models/course.model';
-import { RegexConstants } from '../utils/regexConstants';
+import { RegexConstants } from '../../../utils/regexConstants';
 import { Op, fn, col, where } from 'sequelize';
-import Assignment from '../models/assignment.model';
+import Assignment from '../../assignment/models/assignment.model';
 
 
 export const validateInfoCourse = (req: Request, res: Response, next: NextFunction) => {

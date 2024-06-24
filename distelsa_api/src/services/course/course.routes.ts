@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse } from '../controllers/course.controller';
-import { validateInfoCourse, checkCourseByName, checkAssignment } from '../middlewares/course.middleware';
+import { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse } from './controllers/course.controller';
+import { validateInfoCourse, checkCourseByName, checkAssignment } from './middlewares/course.middleware';
 
 const router: Router = Router();
 /**

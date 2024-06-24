@@ -1,5 +1,5 @@
-import Log, { ILog } from '../models/logger.model';
-import MongoConnection from './mongo';
+import Log, { ILog } from '../services/logger/models/logger.model';
+import MongoConnection from '../db/mongo';
 
 interface LogOptions {
   type: 'error' | 'event';

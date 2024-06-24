@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import Assignment from '../models/assignment.model';
-import Student from '../models/student.model';
-import Course from '../models/course.model';
+import Student from '../../student/models/student.model';
+import Course from '../../course/models/course.model';
 import sequelize from 'sequelize';
-import { sendResponse } from '../utils/responseHandler';
-import { ResponseTypes } from '../utils/responseTypes';
+import { sendResponse } from '../../../utils/responseHandler';
+import { ResponseTypes } from '../../../utils/responseTypes';
 
 /**
  * @swagger

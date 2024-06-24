@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { createStudent, getStudent, updateStudent, deleteStudent, getAllStudents } from '../controllers/student.controller';
-import { validateInfoStudent, checkStudentByDPI, checkAssignment } from '../middlewares/student.middleware';
+import { createStudent, getStudent, updateStudent, deleteStudent, getAllStudents } from './controllers/student.controller';
+import { validateInfoStudent, checkStudentByDPI, checkAssignment } from './middlewares/student.middleware';
 
 const router: Router = Router();
 /**

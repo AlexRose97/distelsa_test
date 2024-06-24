@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Student from '../models/student.model';
-import { RegexConstants } from '../utils/regexConstants';
-import Assignment from '../models/assignment.model';
+import { RegexConstants } from '../../../utils/regexConstants';
+import Assignment from '../../assignment/models/assignment.model';
 
 
 export const validateInfoStudent = (req: Request, res: Response, next: NextFunction) => {

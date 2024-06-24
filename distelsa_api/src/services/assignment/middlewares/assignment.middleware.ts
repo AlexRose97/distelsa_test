@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Assignment from '../models/assignment.model';
-import { RegexConstants } from '../utils/regexConstants';
+import { RegexConstants } from '../../../utils/regexConstants';
 
 
 export const validateInfoAssignment = (req: Request, res: Response, next: NextFunction) => {
