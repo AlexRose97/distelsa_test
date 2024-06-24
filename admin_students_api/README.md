@@ -1,4 +1,4 @@
-# Proyecto `distelsa_api`
+# Proyecto `admin_students_api`
 
 Este proyecto está desarrollado utilizando Node.js v20.15.0, Oracle y MongoDB como base de datos, con un enfoque en administrar cursos y asignaciones de alumnos.
 
@@ -21,7 +21,7 @@ El proyecto sigue una [arquitectura basada en hexágonos con vertical slicing](h
 ### Estructura de Carpetas
 
 ```
-distelsa_api
+admin_students_api
 └───src
     │   app.ts
     │   server.ts
@@ -70,6 +70,10 @@ tambien se adjunta la coleccion de postman dentro de la carpeta "postman"
 Ejecuta el siguiente comando
 ```
 npm run test
+```
+Puedes encontrar el reporte de coverage en la siguiente ubicacion:
+```
+./admin_students_api/coverage/lcov-report/index.html
 ```
 
 ## Autor
